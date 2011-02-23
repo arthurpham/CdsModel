@@ -36,8 +36,8 @@ FILE( GLOB_RECURSE PROJ_HEADERS ../lib/include/isda/*.h ) # Scan all public  hea
 SET( PROJ_INCLUDES ${PROJ_INCLUDES} ${PROJ_PATH}/../lib/include/isda )
 
 # Group files in virtual folders under Visual Studio
-SOURCE_GROUP( "Headers" FILES ${PROJ_SOURCES} )
-SOURCE_GROUP( "Sources" FILES ${PROJ_HEADERS} )
+SOURCE_GROUP( "Headers" FILES ${PROJ_HEADERS} )
+SOURCE_GROUP( "Sources" FILES ${PROJ_SOURCES} )
 
 ############################ External libraries ###############################
 # Add current source directory as module path for Find*.cmake
