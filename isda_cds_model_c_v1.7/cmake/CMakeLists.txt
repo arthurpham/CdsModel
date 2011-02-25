@@ -56,9 +56,13 @@ FILE( COPY ${PROJ_DATA_PATH} DESTINATION ${PROJ_OUT_PATH} )
 
 ############################ Project generation ###############################
 ADD_LIBRARY( cdsmodel SHARED ${PROJ_SOURCES} )
+TARGET_LINK_LIBRARIES( cdsmodel ${PROJ_LIBRARIES} )
 #ADD_EXECUTABLE( cdsmodel ${PROJ_SOURCES} )
 
-TARGET_LINK_LIBRARIES( cdsmodel ${PROJ_LIBRARIES} )
+ADD_EXECUTABLE (exampletest ../examples/c/src/main.c)
+TARGET_LINK_LIBRARIES (exampletest cdsmodel)
+
+
 
 ############################## Documentation ##################################
 IF ( BUILD_DOC )
