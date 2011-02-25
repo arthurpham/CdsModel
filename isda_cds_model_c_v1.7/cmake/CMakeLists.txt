@@ -81,8 +81,16 @@ ENDIF( BUILD_TESTS )
 
 MESSAGE( "--------------------------------------------------" )
 
+######################## Specific preprocessor  tags ##########################
+IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+	ADD_DEFINITIONS(-DMACOSX)
+ENDIF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+
+IF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+	ADD_DEFINITIONS(-DLINUX)
+ENDIF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+
 ############################# Target Properties ###############################
-ADD_DEFINITIONS(-DLINUX)
 
 SET_TARGET_PROPERTIES( cdsmodel PROPERTIES LINKER_LANGUAGE CXX ) # Language forced to C++
 

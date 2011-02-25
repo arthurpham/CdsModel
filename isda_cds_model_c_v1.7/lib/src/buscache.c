@@ -19,7 +19,7 @@
 #include "strutil.h"
 #include <limits.h>
 
-#ifdef LINUX
+#if defined(LINUX) || defined(MACOSX)
 #define stricmp strcasecmp
 #endif
 
