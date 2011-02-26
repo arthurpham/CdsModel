@@ -25,19 +25,11 @@ SET( cdsmodel_PATCH_LEVEL   1 )
 ########################## Modules configuration ##############################
 OPTION( BUILD_DOC    "Build the doxygen documentation" OFF )
 OPTION( BUILD_TESTS  "Build the unit tests"            OFF )
+OPTION( BUILD_XLL  	 "Build the unit tests"            OFF )
 
 MESSAGE( STATUS "Building documentation:   " ${BUILD_DOC}    )
 MESSAGE( STATUS "Building tests:           " ${BUILD_TESTS}  )
-
-############################## Sources ########################################
-FILE( GLOB_RECURSE PROJ_SOURCES lib/src/*.c* ) # Scan all source files
-FILE( GLOB_RECURSE PROJ_HEADERS lib/include/isda/*.h ) # Scan all public  header files
-
-SET( PROJ_INCLUDES ${PROJ_INCLUDES} ${PROJ_PATH}/lib/include/isda )
-
-# Group files in virtual folders under Visual Studio
-SOURCE_GROUP( "Headers" FILES ${PROJ_HEADERS} )
-SOURCE_GROUP( "Sources" FILES ${PROJ_SOURCES} )
+MESSAGE( STATUS "Building excel:           " ${BUILD_XLL}    )
 
 ############################ External libraries ###############################
 # Add current source directory as module path for Find*.cmake
@@ -54,15 +46,27 @@ INCLUDE_DIRECTORIES( ${PROJ_INCLUDES} ) # Include path
 ################################ Resources ####################################
 #FILE( COPY ${PROJ_DATA_PATH} DESTINATION ${PROJ_OUT_PATH} )
 
+######################## Specific preprocessor  tags ##########################
+IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+	ADD_DEFINITIONS(-DMACOSX)
+ENDIF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+
+IF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+	ADD_DEFINITIONS(-DLINUX)
+ENDIF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+
+IF(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+	ADD_DEFINITIONS(-DWINDOWS -D_CRT_SECURE_NO_WARNINGS)
+ENDIF(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+
 ############################ Project generation ###############################
-ADD_LIBRARY( cdsmodel SHARED ${PROJ_SOURCES} )
-TARGET_LINK_LIBRARIES( cdsmodel ${PROJ_LIBRARIES} )
-#ADD_EXECUTABLE( cdsmodel ${PROJ_SOURCES} )
+ADD_SUBDIRECTORY( lib )
 
-ADD_EXECUTABLE (exampletest examples/c/src/main.c)
-TARGET_LINK_LIBRARIES (exampletest cdsmodel)
+ADD_SUBDIRECTORY( examples/c )
 
-
+IF ( BUILD_XLL )
+  ADD_SUBDIRECTORY( excel )
+ENDIF( BUILD_XLL )
 
 ############################## Documentation ##################################
 IF ( BUILD_DOC )
@@ -85,25 +89,7 @@ ENDIF( BUILD_TESTS )
 
 MESSAGE( "--------------------------------------------------" )
 
-######################## Specific preprocessor  tags ##########################
-IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-	ADD_DEFINITIONS(-DMACOSX)
-ENDIF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
-IF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-	ADD_DEFINITIONS(-DLINUX)
-ENDIF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
-############################# Target Properties ###############################
 
-SET_TARGET_PROPERTIES( cdsmodel PROPERTIES LINKER_LANGUAGE CXX ) # Language forced to C++
-
-SET_TARGET_PROPERTIES( cdsmodel PROPERTIES DEBUG_POSTFIX   "d" ) # Debug mode: a trailing "d"
-SET_TARGET_PROPERTIES( cdsmodel PROPERTIES RELEASE_POSTFIX ""  ) # Release mode: no postfix
-
-SET_TARGET_PROPERTIES( cdsmodel PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${PROJ_OUT_PATH} ) # Path for shared libraries
-SET_TARGET_PROPERTIES( cdsmodel PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${PROJ_OUT_PATH} ) # Path for module libraries
-SET_TARGET_PROPERTIES( cdsmodel PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${PROJ_OUT_PATH} ) # Path for import libraries
-
-SET_TARGET_PROPERTIES( cdsmodel PROPERTIES OUTPUT_NAME "cdsmodel" ) # Output name
 
