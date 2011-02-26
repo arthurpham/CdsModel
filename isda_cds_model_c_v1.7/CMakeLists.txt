@@ -30,10 +30,10 @@ MESSAGE( STATUS "Building documentation:   " ${BUILD_DOC}    )
 MESSAGE( STATUS "Building tests:           " ${BUILD_TESTS}  )
 
 ############################## Sources ########################################
-FILE( GLOB_RECURSE PROJ_SOURCES ../lib/src/*.c* ) # Scan all source files
-FILE( GLOB_RECURSE PROJ_HEADERS ../lib/include/isda/*.h ) # Scan all public  header files
+FILE( GLOB_RECURSE PROJ_SOURCES lib/src/*.c* ) # Scan all source files
+FILE( GLOB_RECURSE PROJ_HEADERS lib/include/isda/*.h ) # Scan all public  header files
 
-SET( PROJ_INCLUDES ${PROJ_INCLUDES} ${PROJ_PATH}/../lib/include/isda )
+SET( PROJ_INCLUDES ${PROJ_INCLUDES} ${PROJ_PATH}/lib/include/isda )
 
 # Group files in virtual folders under Visual Studio
 SOURCE_GROUP( "Headers" FILES ${PROJ_HEADERS} )
@@ -52,14 +52,14 @@ SET( CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJ_PATH} )
 INCLUDE_DIRECTORIES( ${PROJ_INCLUDES} ) # Include path
 
 ################################ Resources ####################################
-FILE( COPY ${PROJ_DATA_PATH} DESTINATION ${PROJ_OUT_PATH} )
+#FILE( COPY ${PROJ_DATA_PATH} DESTINATION ${PROJ_OUT_PATH} )
 
 ############################ Project generation ###############################
 ADD_LIBRARY( cdsmodel SHARED ${PROJ_SOURCES} )
 TARGET_LINK_LIBRARIES( cdsmodel ${PROJ_LIBRARIES} )
 #ADD_EXECUTABLE( cdsmodel ${PROJ_SOURCES} )
 
-ADD_EXECUTABLE (exampletest ../examples/c/src/main.c)
+ADD_EXECUTABLE (exampletest examples/c/src/main.c)
 TARGET_LINK_LIBRARIES (exampletest cdsmodel)
 
 
