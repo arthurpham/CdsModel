@@ -64,6 +64,8 @@ ADD_SUBDIRECTORY( lib )
 
 ADD_SUBDIRECTORY( examples/c )
 
+ADD_SUBDIRECTORY( cdsconverter )
+
 IF ( BUILD_XLL )
   ADD_SUBDIRECTORY( excel )
 ENDIF( BUILD_XLL )
