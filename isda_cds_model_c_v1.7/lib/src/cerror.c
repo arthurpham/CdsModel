@@ -224,7 +224,7 @@ EXPORT char* JpmcdsErrMsgGetFileName(void)
 ** Writes an error message with a variable number of arguments to a log file.  
 ***************************************************************************
 */
-void JpmcdsErrMsg(char *format,  ...)
+void JpmcdsErrMsg(const char *format,  ...)
 {
     va_list parminfo;
     va_start(parminfo, format);
@@ -242,7 +242,7 @@ void JpmcdsErrMsg(char *format,  ...)
 ** Writes an error message with a variable number of arguments to a log file
 ***************************************************************************
 */
-void JpmcdsErrMsgV(char *format,  va_list parminfo)
+void JpmcdsErrMsgV(const char *format,  va_list parminfo)
 {
     TBoolean localpWriteMessage;     /* Local copy of pWriteMessage */
 
