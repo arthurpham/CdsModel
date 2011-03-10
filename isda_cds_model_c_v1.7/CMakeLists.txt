@@ -49,6 +49,10 @@ INCLUDE_DIRECTORIES( ${PROJ_INCLUDES} ) # Include path
 ######################## Specific preprocessor  tags ##########################
 IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 	ADD_DEFINITIONS(-DMACOSX)
+	IF ( ${CMAKE_BUILD_TYPE} MATCHES "Debug" )
+	    ADD_DEFINITIONS(-fprofile-arcs -ftest-coverage)
+	    SET( PROJ_LIBRARIES ${PROJ_LIBRARIES} gcov   )
+	ENDIF( ${CMAKE_BUILD_TYPE} MATCHES "Debug" )
 ENDIF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
 IF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
