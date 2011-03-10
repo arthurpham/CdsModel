@@ -48,15 +48,18 @@ INCLUDE_DIRECTORIES( ${PROJ_INCLUDES} ) # Include path
 
 ######################## Specific preprocessor  tags ##########################
 IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-	ADD_DEFINITIONS(-DMACOSX)
+	ADD_DEFINITIONS(-DMACOSX -Wall)
 	IF ( ${CMAKE_BUILD_TYPE} MATCHES "Debug" )
+	    #SET(CMAKE_C_FLAGS "-g -O0 -Wall -fprofile-arcs -ftest-coverage")
+        #SET(CMAKE_CXX_FLAGS "-g -O0 -Wall -fprofile-arcs -ftest-coverage")
+        #SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fprofile-arcs -ftest-coverage -lgcov")
 	    ADD_DEFINITIONS(-fprofile-arcs -ftest-coverage)
 	    SET( PROJ_LIBRARIES ${PROJ_LIBRARIES} gcov   )
 	ENDIF( ${CMAKE_BUILD_TYPE} MATCHES "Debug" )
 ENDIF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
 IF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-	ADD_DEFINITIONS(-DLINUX)
+	ADD_DEFINITIONS(-DLINUX -Wall)
 ENDIF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
 IF(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
